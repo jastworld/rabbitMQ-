@@ -13,7 +13,7 @@ app.use(bodyParser.json());
 app.use(routes);
 
 
-const port = process.env.port || 3000;
+const port = process.env.port || 80;
 // start the server in the port 3000 !
 app.listen(port, function () {
     console.log('Example app listening on port 3000.');

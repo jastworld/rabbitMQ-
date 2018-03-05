@@ -47,8 +47,9 @@ router.post("/speak",(req,res)=>{
         channel.assertExchange(exchange, 'direct', {durable: false});
         channel.publish(exchange, key, new Buffer(message));
         console.log(" [x] Sent %s: '%s'", key, message);
+	res.status(200).send();
       });
-      res.status(200).send();
+   
       //setTimeout(function() { conn.close(); process.exit(0) }, 500);
     });
 });
