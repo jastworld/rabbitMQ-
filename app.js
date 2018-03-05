@@ -24,9 +24,11 @@ router.post("/listen",(req,res)=>{
 
           channel.consume(queue.queue, function(msg) {
             console.log(" [x] %s: '%s'", msg.fields.routingKey, msg.content.toString());
-            res.json({
-                "msg": msg.content.toString()
-            });
+            if(!res.headersSent) {
+              res.json({
+                  "msg": msg.content.toString()
+              });
+            }
           }, {noAck: true});
         });
       });
@@ -46,10 +48,14 @@ router.post("/speak",(req,res)=>{
         var key = req.body.key;
         channel.assertExchange(exchange, 'direct', {durable: false});
         channel.publish(exchange, key, new Buffer(message));
+
         console.log(" [x] Sent %s: '%s'", key, message);
-	res.status(200).send();
+        if(!res.headersSent) {
+          res.status(200).send();
+        }
+
       });
-   
+
       //setTimeout(function() { conn.close(); process.exit(0) }, 500);
     });
 });
