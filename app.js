@@ -6,10 +6,10 @@ var amqp = require('amqplib/callback_api');
 
 router.post("/listen",(req,res)=>{
    //listen { keys: [array] }
-   var amqp = require('amqplib/callback_api');
-
-
-    amqp.connect('amqp://localhost', function(err, conn) {
+    amqp.connect('amqp://swat_team:swat_team@130.245.168.78:5672', function(err, conn) {
+      if(err){
+        console.log(err);
+      }
       conn.createChannel(function(err, channel) {
         var exchange = 'hw3';
 
@@ -39,9 +39,12 @@ router.post("/listen",(req,res)=>{
 
 
 router.post("/speak",(req,res)=>{
-    var amqp = require('amqplib/callback_api');
 
-    amqp.connect('amqp://localhost', function(err, conn) {
+  //swat_team:swat_team@130.245.168.78:5672
+    amqp.connect('amqp://swat_team:swat_team@130.245.168.78:5672', function(err, conn) {
+      if(err){
+        console.log(err);
+      }
       conn.createChannel(function(err, channel) {
         var exchange = 'hw3';
         var message = req.body.msg;
